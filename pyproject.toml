@@ -1,0 +1,82 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "translet"
+version = "0.1.0"
+description = "JSON conversion pipelines via LLM-generated JSONata rules with caching."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [
+    { name = "tumi", email = "tumikosha@gmail.com" },
+]
+keywords = ["translet", "transjson", "json", "jsonata", "llm", "translation", "pipeline"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "jsonata-python>=0.6.0",
+    "dbset>=1.0.0",
+    "jsonschema>=4.0",
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.40"]
+azure = ["openai>=1.40"]
+groq = ["openai>=1.40"]
+nvidia = ["openai>=1.40"]
+all-llm = ["openai>=1.40"]
+dev = [
+    "pytest>=7",
+    "pytest-asyncio>=0.23",
+    "pytest-cov",
+    "ruff",
+    "build",
+    "twine",
+    "openai>=1.40",
+]
+
+[project.urls]
+Homepage = "https://github.com/tumikosha/translet"
+Issues = "https://github.com/tumikosha/translet/issues"
+Source = "https://github.com/tumikosha/translet"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/translet"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/translet",
+    "tests",
+    "README.md",
+    "LICENSE",
+    "pyproject.toml",
+]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+markers = [
+    "live_llm: tests that hit a real LLM provider (require API keys, skipped by default)",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
